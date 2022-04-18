@@ -4,15 +4,13 @@
 #include <chrono>
 #include <iomanip>
 #include <string>
-
-//https://www.jstor.org/stable/2685243?seq=1
+#include <numbers>
 
 double EXP_sim(double x = 0.9, size_t n_samples = 10000000000)
 {
   if (x == 0) return 1;
  
   mxws_64 rng;
-  auto e = 2.7182818284590452353602874713526624977572470936999595749669676277;
 
   double h = 0;
   double xi = 1;
@@ -23,7 +21,7 @@ double EXP_sim(double x = 0.9, size_t n_samples = 10000000000)
     x = std::modf(x, &xi);
     //The integer part is stored in the object pointed by intpart, 
     //and the fractional part is returned by the function.
-    xi = double(std::pow(e, xi));
+    xi = double(std::pow(std::numbers::e, xi));
   }
 
   if (x == 0)return xi;
