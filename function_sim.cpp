@@ -154,8 +154,8 @@ int main(int argc, char** argv)
   }
   else r = sqrt_sim(2.0, throws);
 
-  std::cout << std::setprecision(2) << "simulated sqrt(" << sqrt_value << ") = "  <<
-    std::setprecision(15) << r << std::endl << std::setprecision(3) <<
+  std::cout << std::setprecision(3) << "simulated sqrt(" << sqrt_value << ") = "  <<
+    std::setprecision(12) << r << std::endl << std::setprecision(3) <<
     "exact sqrt(" << sqrt_value << ")     = " << std::setprecision(12) << sqrt(sqrt_value) << std::endl;
   
   return 0;
