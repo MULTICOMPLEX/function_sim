@@ -19,7 +19,7 @@ public:
 	{
 		init();
 	}
-	
+
 	mxws(const std::seed_seq& seq)
 	{
 		if (seq.size() == 2)
@@ -60,7 +60,7 @@ public:
 
 	static uint32_t min() { return std::numeric_limits<uint32_t>::min(); }
 	static uint32_t max() { return std::numeric_limits<uint32_t>::max(); }
-	
+
 	inline uint32_t operator()()
 	{
 		x *= w;
@@ -68,14 +68,14 @@ public:
 		w += x;
 		return uint32_t(x);
 	}
-	
+
 	template <typename T>
 		requires std::floating_point<T>
 	inline T operator()(const T& f)
 	{
 		return (*this)() / 4294967296. * f;
-	} 
-	
+	}
+
 	template <typename T>
 		requires std::floating_point<T>
 	inline T operator()(const T& min, const T& max)
@@ -87,12 +87,12 @@ public:
 		requires std::integral<T>&& std::floating_point<U>
 	inline U operator()(const T& min, const U& max)
 	{
-		return (*this)(1.0) * (max - U(min)) + U(min);
+		return (*this)(1.0) * (max - min) + min;
 	}
 
 	template <typename T>
 		requires std::integral<T>
-	inline T operator()(const T &max)
+	inline T operator()(const T& max)
 	{
 		return (*this)() % (max + 1);
 	}
@@ -136,7 +136,7 @@ public:
 			w2 = w1 + 1;
 			x1 = x2 = 1;
 		}
-		 
+
 		else init();
 	}
 
@@ -200,14 +200,14 @@ public:
 	}
 
 	template <typename T, typename U>
-		requires std::integral<T> && std::floating_point<U>
+		requires std::integral<T>&& std::floating_point<U>
 	inline U operator()(const T& min, const U& max)
 	{
-		return (*this)(1.0) * (max - U(min)) + U(min);
+		return (*this)(1.0) * (max - min) + min;
 	}
 
 	template <typename T>
-		requires std::integral<T> 
+		requires std::integral<T>
 	inline T operator()(const T& max)
 	{
 		return (*this)() % (max + 1);
