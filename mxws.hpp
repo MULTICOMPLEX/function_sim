@@ -1,5 +1,6 @@
 
 #include <random>
+#include <concepts>
 
 class mxws
 {
@@ -67,28 +68,38 @@ public:
 		w += x;
 		return uint32_t(x);
 	}
-	 
-	inline double operator()(const double& f)
-	{
-		return double((*this)()) / 4294967296. * f;
-	} 
-
-	inline long double operator()(const long double& min, const long double& max)
-	{
-		return (*this)(1.) * (max - min) + min;
-	}
 	
-	inline double operator()(const double& min, const double& max)
+	template <typename T>
+		requires std::floating_point<T>
+	inline T operator()(const T& f)
 	{
-		return (*this)(1.) * (max - min) + min;
+		return (*this)() / 4294967296. * f;
+	} 
+	
+	template <typename T>
+		requires std::floating_point<T>
+	inline T operator()(const T& min, const T& max)
+	{
+		return (*this)(1.0) * (max - min) + min;
 	}
 
-	inline uint32_t operator()(const auto &max)
+	template <typename T, typename U>
+		requires std::integral<T>&& std::floating_point<U>
+	inline U operator()(const T& min, const U& max)
+	{
+		return (*this)(1.0) * (max - U(min)) + U(min);
+	}
+
+	template <typename T>
+		requires std::integral<T>
+	inline T operator()(const T &max)
 	{
 		return (*this)() % (max + 1);
 	}
 
-	inline uint32_t operator()(const auto& min, const auto& max)
+	template <typename T>
+		requires std::integral<T>
+	inline T operator()(const T& min, const T& max)
 	{
 		return min + ((*this)() % (max - min + 1));
 	}
@@ -174,27 +185,37 @@ public:
 		return (x1 << 32) | uint32_t(x2);
 	}
 
-	inline double operator()(const double& f)
+	template <typename T>
+		requires std::floating_point<T>
+	inline T operator()(const T& f)
 	{
-		return double((*this)() >> 11) / 9007199254740992. * f;
+		return ((*this)() >> 11) / 9007199254740992. * f;
 	}
 
-	inline double operator()(const double& min, const double& max)
+	template <typename T>
+		requires std::floating_point<T>
+	inline T operator()(const T& min, const T& max)
 	{
-		return (*this)(1.) * (max - min) + min;
+		return (*this)(1.0) * (max - min) + min;
 	}
 
-	inline long double operator()(const long double& min, const long double& max)
+	template <typename T, typename U>
+		requires std::integral<T> && std::floating_point<U>
+	inline U operator()(const T& min, const U& max)
 	{
-		return (*this)(1.) * (max - min) + min;
+		return (*this)(1.0) * (max - U(min)) + U(min);
 	}
 
-	inline uint64_t operator()(const auto& max)
+	template <typename T>
+		requires std::integral<T> 
+	inline T operator()(const T& max)
 	{
 		return (*this)() % (max + 1);
 	}
-	
-	inline uint64_t operator()(const auto& min, const auto& max)
+
+	template <typename T>
+		requires std::integral<T>
+	inline T operator()(const T& min, const T& max)
 	{
 		return min + ((*this)() % (max - min + 1));
 	}

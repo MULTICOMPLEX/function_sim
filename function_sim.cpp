@@ -32,7 +32,7 @@ double EXP_sim(double x = 0.9, size_t n_samples = 10000000000)
     {
       while (h < 1)
       {
-        h += rng(0.0, 1.0 / x);
+        h += rng(0, 1.0 / x);
         tot++;
       }
       h = 0; 
@@ -91,7 +91,7 @@ double sqrt_sim(double z = 2, size_t throws = 10000000000)
   if (z < 1) {
     while (i < throws)
     {
-      r = rng(0.0, 1.0 / z);
+      r = rng(1.0 / z);
       r *= r;
       if (r < z)tel++;
       i++;
@@ -102,7 +102,7 @@ double sqrt_sim(double z = 2, size_t throws = 10000000000)
   else {
     while (i < throws)
     {
-      r = rng(0.0, z);
+      r = rng(z);
       r *= r;
       if (r < z)tel++;
       i++;
@@ -157,6 +157,9 @@ int main(int argc, char** argv)
   std::cout << std::setprecision(2) << "simulated sqrt(" << sqrt_value << ") = "  <<
     std::setprecision(15) << r << std::endl << std::setprecision(3) <<
     "exact sqrt(" << sqrt_value << ")     = " << std::setprecision(12) << sqrt(sqrt_value) << std::endl;
+
+
+
 
   return 0;
 }
