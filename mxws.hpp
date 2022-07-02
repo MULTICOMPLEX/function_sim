@@ -336,15 +336,14 @@ public:
 		requires std::floating_point<T>&& std::integral<L>
 	T sqrt_mc(T z = 2, L throws = 10000000000)
 	{
-		mxws<uint32_t> rng;
-
+		
 		uint64_t tel = 0, i = 0;
 		T r;
 
 		if (z < 1) {
 			while (i < throws)
 			{
-				r = rng(1.0 / z);
+				r = (*this)(1.0 / z);
 				r *= r;
 				if (r < z)tel++;
 				i++;
@@ -355,7 +354,7 @@ public:
 		else {
 			while (i < throws)
 			{
-				r = rng(z);
+				r = (*this)(z);
 				r *= r;
 				if (r < z)tel++;
 				i++;
@@ -369,8 +368,6 @@ public:
 	T exp_mc(T x = 0.9, L n_samples = 10000000000)
 	{
 		if (x == 0) return 1;
-
-		mxws<uint32_t> rng;
 
 		T h = 0;
 		T xi = 1;
@@ -392,7 +389,7 @@ public:
 			{
 				while (h < 1)
 				{
-					h += rng(1.0 / x);
+					h += (*this)(1.0 / x);
 					tot++;
 				}
 				h = 0;
@@ -407,7 +404,7 @@ public:
 			{
 				while (h < x)
 				{
-					h += rng(1.0);
+					h += (*this)(1.0);
 					tot++;
 				}
 				h = 0;
