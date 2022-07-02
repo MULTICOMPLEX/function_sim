@@ -179,7 +179,7 @@ public:
 	template <typename T, typename L>
 		requires std::floating_point<T>&&
 	std::integral<L>
-		T inline error_function(const T& x, const L& iterations)
+		T error_function(const T& x, const L& iterations)
 	{
 		const auto f = [](const auto& t) {return exp(-pow(t, 2)); };
 
@@ -336,7 +336,7 @@ public:
 		requires std::floating_point<T>&& std::integral<L>
 	T sqrt_mc(T z = 2, L throws = 10000000000)
 	{
-		
+
 		uint64_t tel = 0, i = 0;
 		T r;
 
