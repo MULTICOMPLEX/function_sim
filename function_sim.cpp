@@ -1,6 +1,10 @@
-
+﻿
 #include "mxws.hpp"
 #include <chrono>
+
+
+void test_log_mc();
+
 
 template <typename T, typename L>
 	requires std::floating_point<T>&& std::integral<L>
@@ -77,6 +81,20 @@ int main(int argc, char** argv)
 	std::cout << std::setprecision(3) << "simulated sqrt(" << sqrt_value << ") = " <<
 		std::setprecision(12) << r << std::endl << std::setprecision(3) <<
 		"exact sqrt(" << sqrt_value << ")     = " << std::setprecision(12) << sqrt(sqrt_value) << std::endl;
+	
+	test_log_mc();
 
 	return 0;
+}
+
+
+void test_log_mc() {
+	mxws<uint32_t> sim;
+	double t = 5;
+	uint64_t n = 1000000000;
+	double approx_ln = sim.log_mc(t, n);
+	std::cout << "ln(" << t << ") = " << std::setprecision(5) << approx_ln << std::endl;
+	auto log_value = log(t);
+	std::cout << "exact log(" << t << ") = " << std::setprecision(5) << log_value << std::endl;
+
 }
