@@ -1,6 +1,8 @@
 #include <random>
 #include <numbers>
 #include <iostream>
+#include <bit>
+#include <bitset>
 
 template <typename RN>
 	requires
@@ -418,13 +420,12 @@ public:
 	template <typename T, typename L>
 		requires std::floating_point<T>&& std::integral<L>
 	T log_mc(T t = 0.9, L n = 10000000000) {
-	
 		T total = 0;
 		for (L i = 0; i < n; i++) {
-			T x = (*this)(1,t);
-			total += 1. / x;
+			T x = (*this)(1, t);
+			total += 1 / x;
 		}
-		return (t - 1.) * total / n;
+		return (t - 1) * total / n;
 	}
 
 };
